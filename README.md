@@ -31,6 +31,6 @@ You have then a detailed overview over the complete history.
 Let me know if there is something not working as expected and I will try to fix it. Please see the [issues](https://bitbucket.org/dotcs/hangouts-log-reader/issues) page.
 
 ## Remark
-Google®
+Google® is a registered trademark of Google Inc.
 
 Please note that this is a private project. Google® is not associated in any way with this project.

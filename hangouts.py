@@ -8,21 +8,40 @@ import json
 
 from datetime import datetime
 
-VERSION = "0.1 dev"
+VERSION = "0.1"
 
 class Participant(object):
+    """
+    Participant class.
+    """
     def __init__(self, gaia_id, chat_id, name):
+        """
+        Constructor
+        """
         self.name = name 
         self.gaia_id = gaia_id 
         self.chat_id = chat_id
 
     def get_id(self):
+        """
+        Getter for the internal Google ID of the participant.
+
+        @return internal Google participant id
+        """
         return self.gaia_id
 
     def get_name(self):
+        """
+        Getter for the name of a participant.
+
+        @return name of the participant (may be None)
+        """
         return self.name
 
     def __unicode__(self):
+        """
+        @return name of the participant or its id if name is None
+        """
         if self.get_name() is None:
             return self.get_id()
         else:
@@ -30,15 +49,32 @@ class Participant(object):
             return self.get_name()
 
 class ParticipantList(object):
+    """
+    List class for participants.
+    """
     def __init__(self):
+        """
+        Constructor
+        """
         self.p_list = {}
         self.current_iter = 0
         self.max_iter = 0
 
     def add(self, p):
+        """
+        Adds a participant to the list.
+
+        @return the participant list
+        """
         self.p_list[p.get_id()] = p
+        return self.p_list
 
     def get_by_id(self, id):
+        """
+        Queries a participant by its id.
+
+        @return the participant or None if id is not listed
+        """
         try:
             return self.p_list[id]
         except:
@@ -57,46 +93,97 @@ class ParticipantList(object):
             return self.p_list.values()[self.current_iter-1]
 
     def __unicode__(self):
+        """
+        @return names of the participants seperated by a comma
+        """
         string = ""
         for p in self.p_list.values():
             string += unicode(p) + ", "
         return string[:-2]
 
 class Event(object):
+    """
+    Event class.
+    """
     def __init__(self, event_id, sender_id, timestamp, message):
+        """
+        Constructor
+        """
         self.event_id = event_id
         self.sender_id = sender_id
         self.timestamp = timestamp
         self.message = message
 
     def get_id(self):
+        """
+        Getter method for the id.
+
+        @return event id
+        """
         return self.event_id
 
     def get_sender_id(self):
+        """
+        Getter method for the sender id.
+
+        @return sender id of the event
+        """
         return self.sender_id
 
     def get_timestamp(self):
+        """
+        Getter method for the timestamp.
+
+        @return timestamp of the event
+        """
         return self.timestamp
 
     def get_message(self):
+        """
+        Getter method for the message.
+
+        @return message (list)
+        """
         return self.message
 
     def get_formatted_message(self):
+        """
+        Getter method for a formatted message (the messages are joined by a space).
+
+        @return message (string)
+        """
         string = ""
         for m in self.message:
             string += m + " "
         return string[:-1]
 
 class EventList(object):
+    """
+    Event list class
+    """
     def __init__(self):
+        """
+        Constructor
+        """
         self.event_list = {}
         self.current_iter = 0
         self.max_iter = 0
 
     def add(self, e):
+        """
+        Adds an event to the event list
+
+        @return event list
+        """
         self.event_list[e.get_id()] = e
+        return self.event_list
 
     def get_by_id(self, id):
+        """
+        Getter method for an event by its id.
+
+        @returns event
+        """
         try:
             return self.event_list[id]
         except:
@@ -115,31 +202,66 @@ class EventList(object):
             return self.event_list.values()[self.current_iter-1]
 
 class Conversation(object):
+    """
+    Conversation class
+    """
     def __init__(self, conversation_id, timestamp, participants, events):
-        """docstring for __init__"""
+        """
+        Constructor
+        """
         self.conversation_id = conversation_id
         self.timestamp = timestamp
         self.participants = participants
         self.events = events
 
     def get_id(self):
+        """
+        Getter method for the conversation id
+
+        @return conversation id
+        """
         return self.conversation_id
 
     def get_timestamp(self):
+        """
+        Getter method for the timestamp
+
+        @return timestamp
+        """
         return self.timestamp
         
     def get_participants(self):
+        """
+        Getter method for the participants.
+
+        @return participants of the conversation
+        """
         return self.participants
 
     def get_events(self):
+        """
+        Getter method for the sorted events.
+
+        @return events of the conversation (sorted)
+        """
         return sorted(self.events, key=lambda event: event.get_timestamp())
 
     def get_events_unsorted(self):
+        """
+        Getter method for the unsorted events.
+
+        @return events of the conversation (unsorted)
+        """
         return self.events
 
 class HangoutsReader(object):
+    """
+    Hangouts reader class
+    """
     def __init__(self, logfile, verbose_mode=False, conversation_id=None):
-        """docstring for __init__"""
+        """
+        Constructor
+        """
         self.filename = self.validate_file(logfile)
         self.verbose_mode = verbose_mode
         self.conversation_id = conversation_id
@@ -148,7 +270,11 @@ class HangoutsReader(object):
         self.parse_json_file(logfile)
 
     def parse_json_file(self, filename):
-        """docstring for parse_json_file"""
+        """
+        Parses the json file. Prints the conversation list or a complete conversation depending on the users choice.
+
+        @return None
+        """
         with open(filename) as json_data:
             self.print_v("Analyzing json file ...")
             data = json.load(json_data)
@@ -161,6 +287,11 @@ class HangoutsReader(object):
                     self.print_conversation(c)
 
     def print_conversation(self, conversation):
+        """
+        Prints conversations in human readable format.
+
+        @return None
+        """
         participants = conversation.get_participants()
         for event in conversation.get_events():
             self.print_("%(timestamp)s: <%(author)s> %(message)s" % \
@@ -171,6 +302,11 @@ class HangoutsReader(object):
                     })
 
     def extract_conversation_data(self, conversation):
+        """
+        Extracts the data that belongs to a single conversation.
+
+        @return Conversation object
+        """
         # note the initial timestamp of this conversation
         initial_timestamp = conversation["response_header"]["current_server_time"]
         conversation_id = conversation["conversation_id"]["id"]
@@ -215,15 +351,31 @@ class HangoutsReader(object):
         return Conversation(conversation_id, initial_timestamp, participant_list, event_list)
 
     def validate_file(self, filename):
+        """
+        Checks if a file is valid or not.
+        Raises a ValueError if the file could not be found.
+
+        @return filename if everything is fine
+        """
         if not os.path.isfile(filename):
             raise ValueError("The given file is not valid.")
         return filename
 
     def print_v(self, message):
+        """
+        Prints a message if verbose mode is activated.
+
+        @return None
+        """
         if self.verbose_mode:
             self.print_(message)
 
     def print_(self, message):
+        """
+        Prints a message with suffix in front of the message.
+        
+        @return None
+        """
         print "[%s] %s" % (os.path.basename(__file__), message)
 
 def main(argv):
