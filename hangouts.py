@@ -376,7 +376,7 @@ class HangoutsReader(object):
         
         @return None
         """
-        print "[%s] %s" % (os.path.basename(__file__), message)
+        print "[%s] %s" % (os.path.basename(__file__), unicode(message).encode('utf8'))
 
 def main(argv):
     parser = argparse.ArgumentParser(description='Commandline python script that allows reading Google Hangouts logfiles. Version: %s' % VERSION)
