@@ -307,24 +307,25 @@ class HangoutsReader(object):
 
         @return Conversation object
         """
-        # note the initial timestamp of this conversation
-        initial_timestamp = conversation["response_header"]["current_server_time"]
-        conversation_id = conversation["conversation_id"]["id"]
-
-        # find out the participants
-        participant_list = ParticipantList()
-        for participant in conversation["conversation_state"]["conversation"]["participant_data"]:
-            gaia_id = participant["id"]["gaia_id"]
-            chat_id = participant["id"]["chat_id"]
-            try:
-                name = participant["fallback_name"]
-            except KeyError:
-                name = None
-            p = Participant(gaia_id,chat_id,name)
-            participant_list.add(p)
-
-        event_list = EventList()
         try:
+            # note the initial timestamp of this conversation
+            initial_timestamp = conversation["response_header"]["current_server_time"]
+            conversation_id = conversation["conversation_id"]["id"]
+
+            # find out the participants
+            participant_list = ParticipantList()
+            for participant in conversation["conversation_state"]["conversation"]["participant_data"]:
+                gaia_id = participant["id"]["gaia_id"]
+                chat_id = participant["id"]["chat_id"]
+                try:
+                    name = participant["fallback_name"]
+                except KeyError:
+                    name = None
+                p = Participant(gaia_id,chat_id,name)
+                participant_list.add(p)
+
+            event_list = EventList()
+
             for event in conversation["conversation_state"]["event"]:
                 event_id = event["event_id"]
                 sender_id = event["sender_id"] # has dict values "gaia_id" and "chat_id"
