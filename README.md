@@ -1,5 +1,5 @@
 # Hangouts Reader
-Hangouts Reader is a commandline pyhton script that allows to read and display the conversations in a Google Hangouts logfile.
+Hangouts Reader is a command line Python script that allows to read and display the conversations in a Google Hangouts logfile.
 
 ## How to download the logfile?
 Google gives you a nice interface to download your data that is stored in their cloud. This does not only work for Hangouts but for a lot more services. You find it on [Google Takeout](https://www.google.com/takeout/). Go there and choose "Hangouts" and create the archive. After a short period of time you can download it via the given link into some folder `$FOLDER`. Extract the archive and you should find a file `$FOLDER/$YOUR_USERNAME@gmail.com-takeout/Hangouts/Hangouts.json`. Remember this path because we need it in a second.
@@ -29,6 +29,9 @@ You have then a detailed overview over the complete history.
 
 ## You found an error?
 Let me know if there is something not working as expected and I will try to fix it. Please see the [issues](https://bitbucket.org/dotcs/hangouts-log-reader/issues) page.
+## Known Issues
+
+* At the moment Hangouts Reader is only working with Python up to 2.7. Python 3 support will be included in future releases. Please be patient.
 
 ## Remark
 Google® is a registered trademark of Google Inc.
