@@ -1,3 +1,5 @@
+Adapted from Fabian Mueller: https://bitbucket.org/dotcs/hangouts-log-reader/
+
 # Hangouts Reader
 Hangouts Reader is a command line Python script that allows to read and display the conversations in a Google Hangouts logfile.
 
@@ -17,7 +19,7 @@ Then you have to tell the script where your `Hangouts.json` file is located at. 
 
 If everything works out you will see a list of all conversations between you and your communication partners. A possible output could be
 
-    [hangouts.py] conversation id: UgyUz5R_Xb2NN0EWZs54AaA4AQ, participants: Roberto Laurance, Fabian Mueller 
+    [hangouts.py] conversation id: UgyUz5R_Xb2NN0EWZs54AaA4AQ, participants: Roberto Laurance, Fabian Mueller
     [hangouts.py] conversation id: UgzpubtSJwYEm3wMzVZ4AaA4AQ, participants: Luis Mueller, Udo Maier, Fabian Mueller
     [hangouts.py] conversation id: UgwB3uEDgZsHba4ia4F4AaA4AQ, participants: Luis Mueller, Manuel Schorsch, Fabian Mueller
 
